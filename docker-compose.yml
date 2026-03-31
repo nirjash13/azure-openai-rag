@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: azure_ai_demo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d azure_ai_demo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  seq:
+    image: datalust/seq:latest
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+    ports:
+      - "5341:80"
+    volumes:
+      - seq_data:/data
+
+  api:
+    build:
+      context: .
+      dockerfile: src/AzureAI.Api/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "5100:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__Default: "Host=postgres;Port=5432;Database=azure_ai_demo;Username=postgres;Password=postgres"
+      AzureOpenAI__Endpoint: ${AZURE_OPENAI_ENDPOINT}
+      AzureOpenAI__ApiKey: ${AZURE_OPENAI_API_KEY}
+      AzureOpenAI__ChatDeployment: ${AZURE_OPENAI_DEPLOYMENT:-gpt-4o}
+      AzureOpenAI__EmbeddingDeployment: ${AZURE_OPENAI_EMBEDDING_DEPLOYMENT:-text-embedding-3-large}
+      AzureSearch__Endpoint: ${AZURE_SEARCH_ENDPOINT}
+      AzureSearch__ApiKey: ${AZURE_SEARCH_API_KEY}
+      Serilog__WriteTo__0__Name: Console
+      Serilog__WriteTo__1__Name: Seq
+      Serilog__WriteTo__1__Args__serverUrl: http://seq:80
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  seq_data:

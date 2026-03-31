@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AzureAI.Api/AzureAI.Api.csproj" />
+    <Project Path="src/AzureAI.Application/AzureAI.Application.csproj" />
+    <Project Path="src/AzureAI.Core/AzureAI.Core.csproj" />
+    <Project Path="src/AzureAI.Infrastructure/AzureAI.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AzureAI.Application.Tests/AzureAI.Application.Tests.csproj" />
+    <Project Path="tests/AzureAI.Core.Tests/AzureAI.Core.Tests.csproj" />
+    <Project Path="tests/AzureAI.Integration.Tests/AzureAI.Integration.Tests.csproj" />
+  </Folder>
+</Solution>
