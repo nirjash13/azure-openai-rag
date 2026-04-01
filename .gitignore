@@ -109,3 +109,4 @@ $RECYCLE.BIN/
 *.swp
 *~.nib
 .agents/
+.claude/
