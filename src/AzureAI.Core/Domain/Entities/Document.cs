@@ -36,6 +36,13 @@ public sealed class Document
     /// <summary>UTC timestamp when ingestion completed (successfully or not).</summary>
     public DateTime? CompletedAt { get; private set; }
 
+    // Required by EF Core for materialization.
+    private Document()
+    {
+        FileName    = null!;
+        ContentType = null!;
+    }
+
     /// <summary>
     /// Initializes a new <see cref="Document"/> in the <see cref="IngestionStatus.Pending"/> state.
     /// </summary>

@@ -26,6 +26,14 @@ public sealed class DocumentChunk
     /// <summary>UTC timestamp when the chunk record was created.</summary>
     public DateTime CreatedAt { get; private set; }
 
+    // Required by EF Core for materialization.
+    private DocumentChunk()
+    {
+        Content   = null!;
+        Embedding = null!;
+        Metadata  = null!;
+    }
+
     /// <summary>Initializes a new <see cref="DocumentChunk"/>.</summary>
     public DocumentChunk(
         Guid documentId,
