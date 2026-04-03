@@ -1,0 +1,576 @@
+Folder PATH listing for volume Inument
+Volume serial number is EC1A-AC35
+D:\PERSONAL\AZURE-OPENAI-RAG\SRC
++---AzureAI.Api
+¦   ¦   appsettings.Development.json
+¦   ¦   appsettings.json
+¦   ¦   AzureAI.Api.csproj
+¦   ¦   AzureAI.Api.http
+¦   ¦   Dockerfile
+¦   ¦   Program.cs
+¦   ¦   
+¦   +---bin
+¦   ¦   +---Debug
+¦   ¦       +---net8.0
+¦   ¦           ¦   appsettings.Development.json
+¦   ¦           ¦   appsettings.json
+¦   ¦           ¦   Azure.AI.OpenAI.dll
+¦   ¦           ¦   Azure.Core.dll
+¦   ¦           ¦   Azure.Identity.dll
+¦   ¦           ¦   Azure.Search.Documents.dll
+¦   ¦           ¦   AzureAI.Api.deps.json
+¦   ¦           ¦   AzureAI.Api.dll
+¦   ¦           ¦   AzureAI.Api.exe
+¦   ¦           ¦   AzureAI.Api.pdb
+¦   ¦           ¦   AzureAI.Api.runtimeconfig.json
+¦   ¦           ¦   AzureAI.Api.staticwebassets.endpoints.json
+¦   ¦           ¦   AzureAI.Application.dll
+¦   ¦           ¦   AzureAI.Application.pdb
+¦   ¦           ¦   AzureAI.Core.dll
+¦   ¦           ¦   AzureAI.Core.pdb
+¦   ¦           ¦   AzureAI.Extraction.dll
+¦   ¦           ¦   AzureAI.Extraction.pdb
+¦   ¦           ¦   AzureAI.FunctionCalling.dll
+¦   ¦           ¦   AzureAI.FunctionCalling.pdb
+¦   ¦           ¦   AzureAI.Infrastructure.dll
+¦   ¦           ¦   AzureAI.Infrastructure.pdb
+¦   ¦           ¦   FluentValidation.DependencyInjectionExtensions.dll
+¦   ¦           ¦   FluentValidation.dll
+¦   ¦           ¦   Google.Protobuf.dll
+¦   ¦           ¦   HealthChecks.NpgSql.dll
+¦   ¦           ¦   MediatR.Contracts.dll
+¦   ¦           ¦   MediatR.dll
+¦   ¦           ¦   Microsoft.AspNetCore.OpenApi.dll
+¦   ¦           ¦   Microsoft.Bcl.AsyncInterfaces.dll
+¦   ¦           ¦   Microsoft.EntityFrameworkCore.Abstractions.dll
+¦   ¦           ¦   Microsoft.EntityFrameworkCore.dll
+¦   ¦           ¦   Microsoft.EntityFrameworkCore.Relational.dll
+¦   ¦           ¦   Microsoft.Extensions.Caching.Memory.dll
+¦   ¦           ¦   Microsoft.Extensions.Configuration.Abstractions.dll
+¦   ¦           ¦   Microsoft.Extensions.Configuration.Binder.dll
+¦   ¦           ¦   Microsoft.Extensions.Configuration.dll
+¦   ¦           ¦   Microsoft.Extensions.DependencyInjection.Abstractions.dll
+¦   ¦           ¦   Microsoft.Extensions.DependencyInjection.dll
+¦   ¦           ¦   Microsoft.Extensions.DependencyModel.dll
+¦   ¦           ¦   Microsoft.Extensions.Diagnostics.Abstractions.dll
+¦   ¦           ¦   Microsoft.Extensions.Diagnostics.dll
+¦   ¦           ¦   Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
+¦   ¦           ¦   Microsoft.Extensions.Diagnostics.HealthChecks.dll
+¦   ¦           ¦   Microsoft.Extensions.FileProviders.Abstractions.dll
+¦   ¦           ¦   Microsoft.Extensions.Hosting.Abstractions.dll
+¦   ¦           ¦   Microsoft.Extensions.Http.dll
+¦   ¦           ¦   Microsoft.Extensions.Http.Polly.dll
+¦   ¦           ¦   Microsoft.Extensions.Logging.Abstractions.dll
+¦   ¦           ¦   Microsoft.Extensions.Logging.dll
+¦   ¦           ¦   Microsoft.Extensions.Options.ConfigurationExtensions.dll
+¦   ¦           ¦   Microsoft.Extensions.Options.dll
+¦   ¦           ¦   Microsoft.Extensions.Primitives.dll
+¦   ¦           ¦   Microsoft.Identity.Client.dll
+¦   ¦           ¦   Microsoft.Identity.Client.Extensions.Msal.dll
+¦   ¦           ¦   Microsoft.IdentityModel.Abstractions.dll
+¦   ¦           ¦   Microsoft.IdentityModel.JsonWebTokens.dll
+¦   ¦           ¦   Microsoft.IdentityModel.Logging.dll
+¦   ¦           ¦   Microsoft.IdentityModel.Tokens.dll
+¦   ¦           ¦   Microsoft.ML.Tokenizers.dll
+¦   ¦           ¦   Microsoft.OpenApi.dll
+¦   ¦           ¦   Npgsql.dll
+¦   ¦           ¦   Npgsql.EntityFrameworkCore.PostgreSQL.dll
+¦   ¦           ¦   OpenAI.dll
+¦   ¦           ¦   Polly.dll
+¦   ¦           ¦   Polly.Extensions.Http.dll
+¦   ¦           ¦   Serilog.AspNetCore.dll
+¦   ¦           ¦   Serilog.dll
+¦   ¦           ¦   Serilog.Enrichers.Environment.dll
+¦   ¦           ¦   Serilog.Enrichers.Thread.dll
+¦   ¦           ¦   Serilog.Extensions.Hosting.dll
+¦   ¦           ¦   Serilog.Extensions.Logging.dll
+¦   ¦           ¦   Serilog.Formatting.Compact.dll
+¦   ¦           ¦   Serilog.Settings.Configuration.dll
+¦   ¦           ¦   Serilog.Sinks.Console.dll
+¦   ¦           ¦   Serilog.Sinks.Debug.dll
+¦   ¦           ¦   Serilog.Sinks.File.dll
+¦   ¦           ¦   Serilog.Sinks.Seq.dll
+¦   ¦           ¦   Swashbuckle.AspNetCore.Swagger.dll
+¦   ¦           ¦   Swashbuckle.AspNetCore.SwaggerGen.dll
+¦   ¦           ¦   Swashbuckle.AspNetCore.SwaggerUI.dll
+¦   ¦           ¦   System.ClientModel.dll
+¦   ¦           ¦   System.Diagnostics.DiagnosticSource.dll
+¦   ¦           ¦   System.IO.Pipelines.dll
+¦   ¦           ¦   System.Memory.Data.dll
+¦   ¦           ¦   System.Security.Cryptography.ProtectedData.dll
+¦   ¦           ¦   System.Text.Encodings.Web.dll
+¦   ¦           ¦   System.Text.Json.dll
+¦   ¦           ¦   
+¦   ¦           +---runtimes
+¦   ¦               +---browser
+¦   ¦               ¦   +---lib
+¦   ¦               ¦       +---net8.0
+¦   ¦               ¦               System.Text.Encodings.Web.dll
+¦   ¦               ¦               
+¦   ¦               +---win
+¦   ¦                   +---lib
+¦   ¦                       +---netstandard2.0
+¦   ¦                               System.Security.Cryptography.ProtectedData.dll
+¦   ¦                               
+¦   +---Endpoints
+¦   ¦       AgentEndpoints.cs
+¦   ¦       AnalyticsEndpoints.cs
+¦   ¦       ChatEndpoints.cs
+¦   ¦       DocumentEndpoints.cs
+¦   ¦       ExtractionEndpoints.cs
+¦   ¦       SearchEndpoints.cs
+¦   ¦       
+¦   +---HealthChecks
+¦   ¦       AzureOpenAIHealthCheck.cs
+¦   ¦       AzureSearchHealthCheck.cs
+¦   ¦       
+¦   +---Middleware
+¦   ¦       CorrelationIdMiddleware.cs
+¦   ¦       GlobalExceptionHandler.cs
+¦   ¦       RequestLoggingMiddleware.cs
+¦   ¦       
+¦   +---Models
+¦   ¦       ApiResponse.cs
+¦   ¦       
+¦   +---obj
+¦   ¦   ¦   AzureAI.Api.csproj.nuget.dgspec.json
+¦   ¦   ¦   AzureAI.Api.csproj.nuget.g.props
+¦   ¦   ¦   AzureAI.Api.csproj.nuget.g.targets
+¦   ¦   ¦   project.assets.json
+¦   ¦   ¦   project.nuget.cache
+¦   ¦   ¦   
+¦   ¦   +---Debug
+¦   ¦       +---net8.0
+¦   ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦   ¦           ¦   apphost.exe
+¦   ¦           ¦   AzureAI..6F79370C.Up2Date
+¦   ¦           ¦   AzureAI.Api.AssemblyInfo.cs
+¦   ¦           ¦   AzureAI.Api.AssemblyInfoInputs.cache
+¦   ¦           ¦   AzureAI.Api.assets.cache
+¦   ¦           ¦   AzureAI.Api.csproj.AssemblyReference.cache
+¦   ¦           ¦   AzureAI.Api.csproj.CoreCompileInputs.cache
+¦   ¦           ¦   AzureAI.Api.csproj.FileListAbsolute.txt
+¦   ¦           ¦   AzureAI.Api.dll
+¦   ¦           ¦   AzureAI.Api.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   AzureAI.Api.genruntimeconfig.cache
+¦   ¦           ¦   AzureAI.Api.GlobalUsings.g.cs
+¦   ¦           ¦   AzureAI.Api.MvcApplicationPartsAssemblyInfo.cache
+¦   ¦           ¦   AzureAI.Api.MvcApplicationPartsAssemblyInfo.cs
+¦   ¦           ¦   AzureAI.Api.pdb
+¦   ¦           ¦   rjsmcshtml.dswa.cache.json
+¦   ¦           ¦   rjsmrazor.dswa.cache.json
+¦   ¦           ¦   rpswa.dswa.cache.json
+¦   ¦           ¦   staticwebassets.build.endpoints.json
+¦   ¦           ¦   staticwebassets.build.json
+¦   ¦           ¦   staticwebassets.build.json.cache
+¦   ¦           ¦   swae.build.ex.cache
+¦   ¦           ¦   
+¦   ¦           +---ref
+¦   ¦           ¦       AzureAI.Api.dll
+¦   ¦           ¦       
+¦   ¦           +---refint
+¦   ¦           ¦       AzureAI.Api.dll
+¦   ¦           ¦       
+¦   ¦           +---staticwebassets
+¦   +---Properties
+¦           launchSettings.json
+¦           
++---AzureAI.Application
+¦   ¦   AzureAI.Application.csproj
+¦   ¦   
+¦   +---Behaviors
+¦   ¦       LoggingBehavior.cs
+¦   ¦       PerformanceBehavior.cs
+¦   ¦       ValidationBehavior.cs
+¦   ¦       
+¦   +---bin
+¦   ¦   +---Debug
+¦   ¦       +---net8.0
+¦   ¦               AzureAI.Application.deps.json
+¦   ¦               AzureAI.Application.dll
+¦   ¦               AzureAI.Application.pdb
+¦   ¦               AzureAI.Core.dll
+¦   ¦               AzureAI.Core.pdb
+¦   ¦               
+¦   +---Commands
+¦   ¦   +---CreateConversation
+¦   ¦   ¦       CreateConversationCommand.cs
+¦   ¦   ¦       CreateConversationHandler.cs
+¦   ¦   ¦       
+¦   ¦   +---DeleteConversation
+¦   ¦   ¦       DeleteConversationCommand.cs
+¦   ¦   ¦       DeleteConversationHandler.cs
+¦   ¦   ¦       
+¦   ¦   +---DeleteDocument
+¦   ¦   ¦       DeleteDocumentCommand.cs
+¦   ¦   ¦       DeleteDocumentHandler.cs
+¦   ¦   ¦       
+¦   ¦   +---IngestDocument
+¦   ¦           IngestDocumentCommand.cs
+¦   ¦           IngestDocumentHandler.cs
+¦   ¦           IngestDocumentValidator.cs
+¦   ¦           
+¦   +---DependencyInjection
+¦   ¦       ApplicationServiceRegistration.cs
+¦   ¦       
+¦   +---DTOs
+¦   ¦       AnomalyDto.cs
+¦   ¦       ChatOptionsDto.cs
+¦   ¦       ChatRequestDto.cs
+¦   ¦       ChatResponseDto.cs
+¦   ¦       ChunkDto.cs
+¦   ¦       DocumentDto.cs
+¦   ¦       ForecastDto.cs
+¦   ¦       RecommendationDto.cs
+¦   ¦       SearchResultDto.cs
+¦   ¦       SourceCitationDto.cs
+¦   ¦       TokenUsageDto.cs
+¦   ¦       
+¦   +---Mapping
+¦   ¦       MappingProfile.cs
+¦   ¦       
+¦   +---obj
+¦   ¦   ¦   AzureAI.Application.csproj.nuget.dgspec.json
+¦   ¦   ¦   AzureAI.Application.csproj.nuget.g.props
+¦   ¦   ¦   AzureAI.Application.csproj.nuget.g.targets
+¦   ¦   ¦   project.assets.json
+¦   ¦   ¦   project.nuget.cache
+¦   ¦   ¦   
+¦   ¦   +---Debug
+¦   ¦       +---net8.0
+¦   ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦   ¦           ¦   AzureAI..2C82CF41.Up2Date
+¦   ¦           ¦   AzureAI.Application.AssemblyInfo.cs
+¦   ¦           ¦   AzureAI.Application.AssemblyInfoInputs.cache
+¦   ¦           ¦   AzureAI.Application.assets.cache
+¦   ¦           ¦   AzureAI.Application.csproj.AssemblyReference.cache
+¦   ¦           ¦   AzureAI.Application.csproj.CoreCompileInputs.cache
+¦   ¦           ¦   AzureAI.Application.csproj.FileListAbsolute.txt
+¦   ¦           ¦   AzureAI.Application.dll
+¦   ¦           ¦   AzureAI.Application.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   AzureAI.Application.GlobalUsings.g.cs
+¦   ¦           ¦   AzureAI.Application.pdb
+¦   ¦           ¦   
+¦   ¦           +---ref
+¦   ¦           ¦       AzureAI.Application.dll
+¦   ¦           ¦       
+¦   ¦           +---refint
+¦   ¦                   AzureAI.Application.dll
+¦   ¦                   
+¦   +---Queries
+¦       +---Anomalies
+¦       ¦       AnomalyDetectionHandler.cs
+¦       ¦       AnomalyDetectionQuery.cs
+¦       ¦       
+¦       +---AskQuestion
+¦       ¦       AskQuestionHandler.cs
+¦       ¦       AskQuestionQuery.cs
+¦       ¦       AskQuestionResponse.cs
+¦       ¦       
+¦       +---Forecast
+¦       ¦       ForecastHandler.cs
+¦       ¦       ForecastQuery.cs
+¦       ¦       
+¦       +---GetConversationHistory
+¦       ¦       ConversationHistoryResponse.cs
+¦       ¦       GetConversationHistoryHandler.cs
+¦       ¦       GetConversationHistoryQuery.cs
+¦       ¦       
+¦       +---GetDocuments
+¦       ¦       GetDocumentByIdHandler.cs
+¦       ¦       GetDocumentByIdQuery.cs
+¦       ¦       GetDocumentsHandler.cs
+¦       ¦       GetDocumentsQuery.cs
+¦       ¦       
+¦       +---Recommendations
+¦       ¦       BudgetRecommendationHandler.cs
+¦       ¦       BudgetRecommendationQuery.cs
+¦       ¦       
+¦       +---SearchDocuments
+¦               SemanticSearchHandler.cs
+¦               SemanticSearchQuery.cs
+¦               
++---AzureAI.Core
+¦   ¦   AzureAI.Core.csproj
+¦   ¦   
+¦   +---bin
+¦   ¦   +---Debug
+¦   ¦       +---net8.0
+¦   ¦               AzureAI.Core.deps.json
+¦   ¦               AzureAI.Core.dll
+¦   ¦               AzureAI.Core.pdb
+¦   ¦               
+¦   +---Configuration
+¦   ¦       AzureOpenAISettings.cs
+¦   ¦       AzureSearchSettings.cs
+¦   ¦       ChunkingSettings.cs
+¦   ¦       RagSettings.cs
+¦   ¦       
+¦   +---Domain
+¦   ¦   +---Entities
+¦   ¦   ¦       ChatMessage.cs
+¦   ¦   ¦       ConversationSession.cs
+¦   ¦   ¦       Document.cs
+¦   ¦   ¦       DocumentChunk.cs
+¦   ¦   ¦       
+¦   ¦   +---Enums
+¦   ¦   ¦       ChatRole.cs
+¦   ¦   ¦       DocumentType.cs
+¦   ¦   ¦       IngestionStatus.cs
+¦   ¦   ¦       RelevanceScore.cs
+¦   ¦   ¦       
+¦   ¦   +---Exceptions
+¦   ¦   ¦       CompletionException.cs
+¦   ¦   ¦       DocumentProcessingException.cs
+¦   ¦   ¦       EmbeddingGenerationException.cs
+¦   ¦   ¦       
+¦   ¦   +---ValueObjects
+¦   ¦           ChunkMetadata.cs
+¦   ¦           EmbeddingVector.cs
+¦   ¦           TokenUsage.cs
+¦   ¦           
+¦   +---Interfaces
+¦   ¦   +---Repositories
+¦   ¦   ¦       IChunkRepository.cs
+¦   ¦   ¦       IConversationRepository.cs
+¦   ¦   ¦       IDocumentRepository.cs
+¦   ¦   ¦       
+¦   ¦   +---Services
+¦   ¦           ICompletionService.cs
+¦   ¦           IDocumentParser.cs
+¦   ¦           IEmbeddingService.cs
+¦   ¦           ITextChunker.cs
+¦   ¦           IVectorSearchService.cs
+¦   ¦           
+¦   +---obj
+¦       ¦   AzureAI.Core.csproj.nuget.dgspec.json
+¦       ¦   AzureAI.Core.csproj.nuget.g.props
+¦       ¦   AzureAI.Core.csproj.nuget.g.targets
+¦       ¦   project.assets.json
+¦       ¦   project.nuget.cache
+¦       ¦   
+¦       +---Debug
+¦           +---net8.0
+¦               ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦               ¦   AzureAI.Core.AssemblyInfo.cs
+¦               ¦   AzureAI.Core.AssemblyInfoInputs.cache
+¦               ¦   AzureAI.Core.assets.cache
+¦               ¦   AzureAI.Core.csproj.AssemblyReference.cache
+¦               ¦   AzureAI.Core.csproj.CoreCompileInputs.cache
+¦               ¦   AzureAI.Core.csproj.FileListAbsolute.txt
+¦               ¦   AzureAI.Core.dll
+¦               ¦   AzureAI.Core.GeneratedMSBuildEditorConfig.editorconfig
+¦               ¦   AzureAI.Core.GlobalUsings.g.cs
+¦               ¦   AzureAI.Core.pdb
+¦               ¦   
+¦               +---ref
+¦               ¦       AzureAI.Core.dll
+¦               ¦       
+¦               +---refint
+¦                       AzureAI.Core.dll
+¦                       
++---AzureAI.Extraction
+¦   ¦   AzureAI.Extraction.csproj
+¦   ¦   
+¦   +---bin
+¦   ¦   +---Debug
+¦   ¦       +---net8.0
+¦   ¦               AzureAI.Core.dll
+¦   ¦               AzureAI.Core.pdb
+¦   ¦               AzureAI.Extraction.deps.json
+¦   ¦               AzureAI.Extraction.dll
+¦   ¦               AzureAI.Extraction.pdb
+¦   ¦               
+¦   +---DependencyInjection
+¦   ¦       ExtractionServiceRegistration.cs
+¦   ¦       
+¦   +---Models
+¦   ¦       AccountMapping.cs
+¦   ¦       ExtractedInvoice.cs
+¦   ¦       ExtractedLineItem.cs
+¦   ¦       ExtractedReceipt.cs
+¦   ¦       ExtractionConfidence.cs
+¦   ¦       ExtractionResult.cs
+¦   ¦       LedgerEntry.cs
+¦   ¦       
+¦   +---obj
+¦   ¦   ¦   AzureAI.Extraction.csproj.nuget.dgspec.json
+¦   ¦   ¦   AzureAI.Extraction.csproj.nuget.g.props
+¦   ¦   ¦   AzureAI.Extraction.csproj.nuget.g.targets
+¦   ¦   ¦   project.assets.json
+¦   ¦   ¦   project.nuget.cache
+¦   ¦   ¦   
+¦   ¦   +---Debug
+¦   ¦       +---net8.0
+¦   ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦   ¦           ¦   AzureAI..443DA813.Up2Date
+¦   ¦           ¦   AzureAI.Extraction.AssemblyInfo.cs
+¦   ¦           ¦   AzureAI.Extraction.AssemblyInfoInputs.cache
+¦   ¦           ¦   AzureAI.Extraction.assets.cache
+¦   ¦           ¦   AzureAI.Extraction.csproj.AssemblyReference.cache
+¦   ¦           ¦   AzureAI.Extraction.csproj.CoreCompileInputs.cache
+¦   ¦           ¦   AzureAI.Extraction.csproj.FileListAbsolute.txt
+¦   ¦           ¦   AzureAI.Extraction.dll
+¦   ¦           ¦   AzureAI.Extraction.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   AzureAI.Extraction.GlobalUsings.g.cs
+¦   ¦           ¦   AzureAI.Extraction.pdb
+¦   ¦           ¦   
+¦   ¦           +---ref
+¦   ¦           ¦       AzureAI.Extraction.dll
+¦   ¦           ¦       
+¦   ¦           +---refint
+¦   ¦                   AzureAI.Extraction.dll
+¦   ¦                   
+¦   +---Prompts
+¦   ¦       InvoiceExtractionPrompt.cs
+¦   ¦       ReceiptExtractionPrompt.cs
+¦   ¦       
+¦   +---Services
+¦           AccountMappingService.cs
+¦           ExtractionValidationService.cs
+¦           InvoiceExtractionService.cs
+¦           ReceiptExtractionService.cs
+¦           
++---AzureAI.FunctionCalling
+¦   ¦   AzureAI.FunctionCalling.csproj
+¦   ¦   FunctionCallingOrchestrator.cs
+¦   ¦   ToolRegistry.cs
+¦   ¦   
+¦   +---Abstractions
+¦   ¦       AgentRequest.cs
+¦   ¦       AgentResponse.cs
+¦   ¦       IToolDefinition.cs
+¦   ¦       ToolCallRecord.cs
+¦   ¦       ToolExecutionContext.cs
+¦   ¦       ToolFunctionAttribute.cs
+¦   ¦       
+¦   +---bin
+¦   ¦   +---Debug
+¦   ¦       +---net8.0
+¦   ¦               AzureAI.Application.dll
+¦   ¦               AzureAI.Application.pdb
+¦   ¦               AzureAI.Core.dll
+¦   ¦               AzureAI.Core.pdb
+¦   ¦               AzureAI.FunctionCalling.deps.json
+¦   ¦               AzureAI.FunctionCalling.dll
+¦   ¦               AzureAI.FunctionCalling.pdb
+¦   ¦               
+¦   +---DependencyInjection
+¦   ¦       FunctionCallingServiceRegistration.cs
+¦   ¦       
+¦   +---obj
+¦   ¦   ¦   AzureAI.FunctionCalling.csproj.nuget.dgspec.json
+¦   ¦   ¦   AzureAI.FunctionCalling.csproj.nuget.g.props
+¦   ¦   ¦   AzureAI.FunctionCalling.csproj.nuget.g.targets
+¦   ¦   ¦   project.assets.json
+¦   ¦   ¦   project.nuget.cache
+¦   ¦   ¦   
+¦   ¦   +---Debug
+¦   ¦       +---net8.0
+¦   ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+¦   ¦           ¦   AzureAI..08C987A4.Up2Date
+¦   ¦           ¦   AzureAI.FunctionCalling.AssemblyInfo.cs
+¦   ¦           ¦   AzureAI.FunctionCalling.AssemblyInfoInputs.cache
+¦   ¦           ¦   AzureAI.FunctionCalling.assets.cache
+¦   ¦           ¦   AzureAI.FunctionCalling.csproj.AssemblyReference.cache
+¦   ¦           ¦   AzureAI.FunctionCalling.csproj.CoreCompileInputs.cache
+¦   ¦           ¦   AzureAI.FunctionCalling.csproj.FileListAbsolute.txt
+¦   ¦           ¦   AzureAI.FunctionCalling.dll
+¦   ¦           ¦   AzureAI.FunctionCalling.GeneratedMSBuildEditorConfig.editorconfig
+¦   ¦           ¦   AzureAI.FunctionCalling.GlobalUsings.g.cs
+¦   ¦           ¦   AzureAI.FunctionCalling.pdb
+¦   ¦           ¦   
+¦   ¦           +---ref
+¦   ¦           ¦       AzureAI.FunctionCalling.dll
+¦   ¦           ¦       
+¦   ¦           +---refint
+¦   ¦                   AzureAI.FunctionCalling.dll
+¦   ¦                   
+¦   +---Tools
+¦           CreateExpenseEntryTool.cs
+¦           GetFinancialSummaryTool.cs
+¦           GetWeatherTool.cs
+¦           SearchDocumentsTool.cs
+¦           
++---AzureAI.Infrastructure
+    ¦   AzureAI.Infrastructure.csproj
+    ¦   
+    +---AzureOpenAI
+    ¦   ¦   AzureOpenAICompletionService.cs
+    ¦   ¦   AzureOpenAIEmbeddingService.cs
+    ¦   ¦   
+    ¦   +---PromptTemplates
+    ¦           ContextComposer.cs
+    ¦           RagSystemPrompt.cs
+    ¦           
+    +---bin
+    ¦   +---Debug
+    ¦       +---net8.0
+    ¦               AzureAI.Application.dll
+    ¦               AzureAI.Application.pdb
+    ¦               AzureAI.Core.dll
+    ¦               AzureAI.Core.pdb
+    ¦               AzureAI.Infrastructure.deps.json
+    ¦               AzureAI.Infrastructure.dll
+    ¦               AzureAI.Infrastructure.pdb
+    ¦               
+    +---DependencyInjection
+    ¦       InfrastructureServiceRegistration.cs
+    ¦       
+    +---DocumentProcessing
+    ¦       DocumentParserFactory.cs
+    ¦       DocxDocumentParser.cs
+    ¦       MarkdownParser.cs
+    ¦       PdfDocumentParser.cs
+    ¦       PlainTextParser.cs
+    ¦       SlidingWindowChunker.cs
+    ¦       
+    +---obj
+    ¦   ¦   AzureAI.Infrastructure.csproj.nuget.dgspec.json
+    ¦   ¦   AzureAI.Infrastructure.csproj.nuget.g.props
+    ¦   ¦   AzureAI.Infrastructure.csproj.nuget.g.targets
+    ¦   ¦   project.assets.json
+    ¦   ¦   project.nuget.cache
+    ¦   ¦   
+    ¦   +---Debug
+    ¦       +---net8.0
+    ¦           ¦   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+    ¦           ¦   AzureAI..63F903ED.Up2Date
+    ¦           ¦   AzureAI.Infrastructure.AssemblyInfo.cs
+    ¦           ¦   AzureAI.Infrastructure.AssemblyInfoInputs.cache
+    ¦           ¦   AzureAI.Infrastructure.assets.cache
+    ¦           ¦   AzureAI.Infrastructure.csproj.AssemblyReference.cache
+    ¦           ¦   AzureAI.Infrastructure.csproj.CoreCompileInputs.cache
+    ¦           ¦   AzureAI.Infrastructure.csproj.FileListAbsolute.txt
+    ¦           ¦   AzureAI.Infrastructure.dll
+    ¦           ¦   AzureAI.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+    ¦           ¦   AzureAI.Infrastructure.GlobalUsings.g.cs
+    ¦           ¦   AzureAI.Infrastructure.pdb
+    ¦           ¦   
+    ¦           +---ref
+    ¦           ¦       AzureAI.Infrastructure.dll
+    ¦           ¦       
+    ¦           +---refint
+    ¦                   AzureAI.Infrastructure.dll
+    ¦                   
+    +---Persistence
+    ¦   ¦   AzureAIDbContext.cs
+    ¦   ¦   
+    ¦   +---Configurations
+    ¦   ¦       ChunkConfiguration.cs
+    ¦   ¦       ConversationConfiguration.cs
+    ¦   ¦       DocumentConfiguration.cs
+    ¦   ¦       
+    ¦   +---Repositories
+    ¦           ChunkRepository.cs
+    ¦           ConversationRepository.cs
+    ¦           DocumentRepository.cs
+    ¦           
+    +---Resilience
+    ¦       CircuitBreakerPolicies.cs
+    ¦       RetryPolicies.cs
+    ¦       
+    +---Search
+            AzureAISearchService.cs
+            SearchIndexManager.cs
+            

@@ -14,12 +14,14 @@
     <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Serilog.Sinks.Seq" Version="9.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AzureAI.Application\AzureAI.Application.csproj" />
     <ProjectReference Include="..\AzureAI.Infrastructure\AzureAI.Infrastructure.csproj" />
+    <ProjectReference Include="..\AzureAI.FunctionCalling\AzureAI.FunctionCalling.csproj" />
+    <ProjectReference Include="..\AzureAI.Extraction\AzureAI.Extraction.csproj" />
   </ItemGroup>
 
 </Project>

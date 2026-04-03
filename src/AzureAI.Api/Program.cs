@@ -2,6 +2,8 @@ using AzureAI.Api.Endpoints;
 using AzureAI.Api.HealthChecks;
 using AzureAI.Api.Middleware;
 using AzureAI.Application.DependencyInjection;
+using AzureAI.Extraction.DependencyInjection;
+using AzureAI.FunctionCalling.DependencyInjection;
 using AzureAI.Infrastructure.DependencyInjection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
@@ -23,6 +25,8 @@ try
 
     builder.Services.AddApplication();
     builder.Services.AddInfrastructure(builder.Configuration);
+    builder.Services.AddFunctionCalling(builder.Configuration);
+    builder.Services.AddExtraction();
 
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(o =>
@@ -80,6 +84,9 @@ try
     app.MapDocumentEndpoints();
     app.MapChatEndpoints();
     app.MapSearchEndpoints();
+    app.MapAgentEndpoints();
+    app.MapExtractionEndpoints();
+    app.MapAnalyticsEndpoints();
 
     app.Run();
 }
