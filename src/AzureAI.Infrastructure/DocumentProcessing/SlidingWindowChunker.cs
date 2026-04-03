@@ -93,6 +93,23 @@ public sealed class SlidingWindowChunker : ITextChunker
         return (overlap, Math.Max(baseOffset, startOffset));
     }
 
-    // Rough token estimate: ~4 characters per token.
-    private static int EstimateTokens(string text) => Math.Max(1, text.Length / 4);
+    private static readonly Lazy<Microsoft.ML.Tokenizers.Tokenizer> _tokenizer =
+        new(() =>
+        {
+            try
+            {
+                return Microsoft.ML.Tokenizers.TiktokenTokenizer.CreateForModel("gpt-4o");
+            }
+            catch
+            {
+                return null!;
+            }
+        });
+
+    private static int EstimateTokens(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return 0;
+        if (_tokenizer.Value is null) return Math.Max(1, text.Length / 4);
+        return _tokenizer.Value.CountTokens(text);
+    }
 }

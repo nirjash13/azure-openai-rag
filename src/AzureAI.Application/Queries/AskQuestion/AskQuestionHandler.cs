@@ -19,6 +19,7 @@ public sealed class AskQuestionHandler : IRequestHandler<AskQuestionQuery, AskQu
     private readonly ICompletionService _completionService;
     private readonly IConversationRepository _conversationRepository;
     private readonly RagSettings _ragSettings;
+    private readonly AzureSearchSettings _searchSettings;
     private readonly ILogger<AskQuestionHandler> _logger;
 
     /// <summary>Initializes a new <see cref="AskQuestionHandler"/>.</summary>
@@ -28,6 +29,7 @@ public sealed class AskQuestionHandler : IRequestHandler<AskQuestionQuery, AskQu
         ICompletionService completionService,
         IConversationRepository conversationRepository,
         IOptions<RagSettings> ragSettings,
+        IOptions<AzureSearchSettings> searchSettings,
         ILogger<AskQuestionHandler> logger)
     {
         _embeddingService       = embeddingService;
@@ -35,6 +37,7 @@ public sealed class AskQuestionHandler : IRequestHandler<AskQuestionQuery, AskQu
         _completionService      = completionService;
         _conversationRepository = conversationRepository;
         _ragSettings            = ragSettings.Value;
+        _searchSettings         = searchSettings.Value;
         _logger                 = logger;
     }
 
@@ -45,8 +48,8 @@ public sealed class AskQuestionHandler : IRequestHandler<AskQuestionQuery, AskQu
 
         var queryEmbedding = await _embeddingService.GenerateEmbeddingAsync(request.Question, cancellationToken);
 
-        var topK    = request.TopK ?? 5;
-        var results = await _vectorSearchService.SearchAsync(queryEmbedding, topK, minimumScore: 0.0, cancellationToken);
+        var topK    = request.TopK ?? _searchSettings.TopK;
+        var results = await _vectorSearchService.SearchAsync(queryEmbedding, topK, _searchSettings.MinScore, cancellationToken);
 
         _logger.LogInformation("Retrieved {Count} chunks for question", results.Count);
 
@@ -76,9 +79,16 @@ public sealed class AskQuestionHandler : IRequestHandler<AskQuestionQuery, AskQu
 
         if (request.ConversationId.HasValue)
         {
+            var session = await _conversationRepository.GetByIdAsync(request.ConversationId.Value, cancellationToken);
+            if (session is null)
+                throw new KeyNotFoundException($"Conversation '{request.ConversationId.Value}' not found.");
+
             var userMessage      = new Core.Domain.Entities.ChatMessage(request.ConversationId.Value, ChatRole.User, request.Question);
             var assistantMessage = new Core.Domain.Entities.ChatMessage(request.ConversationId.Value, ChatRole.Assistant, completion.Content);
-            await _conversationRepository.AppendMessagesAsync(request.ConversationId.Value, userMessage, assistantMessage);
+            await _conversationRepository.AppendMessagesAsync(
+                request.ConversationId.Value,
+                new[] { userMessage, assistantMessage },
+                cancellationToken);
         }
 
         sw.Stop();
@@ -97,15 +107,16 @@ public sealed class AskQuestionHandler : IRequestHandler<AskQuestionQuery, AskQu
 
     private static string BuildContextWindow(IReadOnlyList<SearchResult> results, int maxTokens)
     {
-        var sb      = new System.Text.StringBuilder();
-        var tokens  = 0;
+        var sb     = new System.Text.StringBuilder();
+        var tokens = 0;
 
         foreach (var result in results)
         {
-            var header = $"[Source: {result.DocumentName}]\n";
-            var entry  = header + result.ContentSnippet + "\n\n";
+            var citation = result.Metadata.PageNumber.HasValue
+                ? $"[Source: {result.DocumentName}, page {result.Metadata.PageNumber}]"
+                : $"[Source: {result.DocumentName}]";
 
-            // Rough token estimate: chars / 4
+            var entry       = $"{citation}\n{result.ContentSnippet}\n\n";
             var entryTokens = entry.Length / 4;
             if (tokens + entryTokens > maxTokens)
                 break;
@@ -114,20 +125,21 @@ public sealed class AskQuestionHandler : IRequestHandler<AskQuestionQuery, AskQu
             tokens += entryTokens;
         }
 
-        return sb.ToString();
+        return sb.ToString().TrimEnd();
     }
 
     private static string BuildSystemPrompt(string contextWindow, bool includeCitations)
     {
         var citationInstruction = includeCitations
-            ? "\nWhen referencing information, cite the source using the [Source: ...] markers provided in the context."
+            ? "\nCite your sources using [Source: <document name>] notation after each claim."
             : string.Empty;
 
         return $"""
-            You are a helpful assistant that answers questions strictly based on the provided context.
-            If the answer cannot be found in the context, say so clearly — do not fabricate information.{citationInstruction}
+            You are a precise and helpful assistant. Answer the user's question using ONLY the information in the CONTEXT section below.
+            If the context does not contain sufficient information, say so explicitly — do not invent or infer facts.
+            Be concise and accurate. Use bullet points for multi-part answers.{citationInstruction}
 
-            Context:
+            CONTEXT:
             {contextWindow}
             """;
     }

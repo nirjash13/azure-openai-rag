@@ -24,6 +24,10 @@ public sealed class DocumentRepository : IDocumentRepository
         _db.Documents.AsNoTracking().FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
 
     /// <inheritdoc />
+    public Task<Document?> GetByIdTrackingAsync(Guid id, CancellationToken cancellationToken = default) =>
+        _db.Documents.FirstOrDefaultAsync(d => d.Id == id, cancellationToken);
+
+    /// <inheritdoc />
     public async Task<IReadOnlyList<Document>> GetAllAsync(CancellationToken cancellationToken = default) =>
         await _db.Documents.AsNoTracking().OrderByDescending(d => d.CreatedAt).ToListAsync(cancellationToken);
 

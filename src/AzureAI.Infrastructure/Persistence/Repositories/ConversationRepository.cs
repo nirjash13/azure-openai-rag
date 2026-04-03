@@ -42,15 +42,31 @@ public sealed class ConversationRepository : IConversationRepository
     }
 
     /// <inheritdoc />
-    public async Task AppendMessagesAsync(Guid conversationId, params ChatMessage[] messages)
+    public async Task AppendMessagesAsync(
+        Guid conversationId,
+        IReadOnlyList<ChatMessage> messages,
+        CancellationToken cancellationToken = default)
     {
-        await _db.ChatMessages.AddRangeAsync(messages);
-        await _db.SaveChangesAsync();
+        await _db.ChatMessages.AddRangeAsync(messages, cancellationToken);
+
+        // Keep LastMessageAt in sync on the parent session
+        var latest = messages.Max(m => m.CreatedAt);
+        await _db.Conversations
+            .Where(c => c.Id == conversationId && c.LastMessageAt < latest)
+            .ExecuteUpdateAsync(s => s.SetProperty(c => c.LastMessageAt, latest), cancellationToken);
+
+        await _db.SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc />
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        await _db.Conversations.Where(c => c.Id == id).ExecuteDeleteAsync(cancellationToken);
+        await _db.ChatMessages
+            .Where(m => m.ConversationId == id)
+            .ExecuteDeleteAsync(cancellationToken);
+
+        await _db.Conversations
+            .Where(c => c.Id == id)
+            .ExecuteDeleteAsync(cancellationToken);
     }
 }

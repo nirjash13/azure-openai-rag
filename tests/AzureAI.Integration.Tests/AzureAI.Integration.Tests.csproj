@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\AzureAI.Api\AzureAI.Api.csproj" />
-    <ProjectReference Include="..\..\src\AzureAI.Infrastructure\AzureAI.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

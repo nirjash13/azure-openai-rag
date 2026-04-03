@@ -15,6 +15,7 @@ internal sealed class ChunkConfiguration : IEntityTypeConfiguration<DocumentChun
 
         builder.Property(c => c.Id).ValueGeneratedNever();
         builder.Property(c => c.DocumentId).IsRequired();
+        builder.Property(c => c.DocumentName).IsRequired().HasMaxLength(500);
         builder.Property(c => c.Content).IsRequired();
         builder.Property(c => c.ChunkIndex).IsRequired();
         builder.Property(c => c.CreatedAt).IsRequired();

@@ -1,7 +1,9 @@
 using AzureAI.Application.DTOs;
 using AzureAI.Application.Mapping;
+using AzureAI.Core.Configuration;
 using AzureAI.Core.Interfaces.Services;
 using MediatR;
+using Microsoft.Extensions.Options;
 
 namespace AzureAI.Application.Queries.SearchDocuments;
 
@@ -10,12 +12,17 @@ public sealed class SemanticSearchHandler : IRequestHandler<SemanticSearchQuery,
 {
     private readonly IEmbeddingService _embeddingService;
     private readonly IVectorSearchService _vectorSearchService;
+    private readonly AzureSearchSettings _searchSettings;
 
     /// <summary>Initializes a new <see cref="SemanticSearchHandler"/>.</summary>
-    public SemanticSearchHandler(IEmbeddingService embeddingService, IVectorSearchService vectorSearchService)
+    public SemanticSearchHandler(
+        IEmbeddingService embeddingService,
+        IVectorSearchService vectorSearchService,
+        IOptions<AzureSearchSettings> searchSettings)
     {
         _embeddingService    = embeddingService;
         _vectorSearchService = vectorSearchService;
+        _searchSettings      = searchSettings.Value;
     }
 
     /// <inheritdoc />
@@ -26,8 +33,8 @@ public sealed class SemanticSearchHandler : IRequestHandler<SemanticSearchQuery,
         var embedding = await _embeddingService.GenerateEmbeddingAsync(request.Query, cancellationToken);
         var results   = await _vectorSearchService.SearchAsync(
             embedding,
-            request.TopK ?? 5,
-            request.MinScore ?? 0.0,
+            request.TopK    ?? _searchSettings.TopK,
+            request.MinScore ?? _searchSettings.MinScore,
             cancellationToken);
 
         return results.Select(r => r.ToDto()).ToList();

@@ -1,10 +1,9 @@
-using System.Diagnostics;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace AzureAI.Application.Behaviors;
 
-/// <summary>MediatR pipeline behavior that logs the start, completion, and elapsed time of each request.</summary>
+/// <summary>MediatR pipeline behavior that logs the start and completion of each request.</summary>
 public sealed class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
 {
@@ -24,13 +23,8 @@ public sealed class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRe
     {
         var requestName = typeof(TRequest).Name;
         _logger.LogInformation("Handling {RequestName}", requestName);
-
-        var sw = Stopwatch.StartNew();
         var response = await next();
-        sw.Stop();
-
-        _logger.LogInformation("Handled {RequestName} in {ElapsedMs}ms", requestName, sw.ElapsedMilliseconds);
-
+        _logger.LogInformation("Handled {RequestName}", requestName);
         return response;
     }
 }

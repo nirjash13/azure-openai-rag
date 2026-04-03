@@ -5,6 +5,9 @@ using AzureAI.Application.DependencyInjection;
 using AzureAI.Extraction.DependencyInjection;
 using AzureAI.FunctionCalling.DependencyInjection;
 using AzureAI.Infrastructure.DependencyInjection;
+using AzureAI.Infrastructure.Persistence;
+using AzureAI.Infrastructure.Search;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 using System.Text.Json;
@@ -50,6 +53,37 @@ try
         o.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
 
     var app = builder.Build();
+
+    // Apply pending EF Core migrations automatically on startup.
+    if (!app.Environment.IsEnvironment("Testing"))
+    {
+        using var dbScope = app.Services.CreateScope();
+        var db = dbScope.ServiceProvider.GetRequiredService<AzureAIDbContext>();
+        try
+        {
+            await db.Database.MigrateAsync();
+        }
+        catch (Exception ex)
+        {
+            Log.Warning(ex, "Database migration failed — app will start anyway");
+        }
+    }
+
+    // Ensure the Azure AI Search index exists with the correct schema.
+    // Vector dimension 3072 matches text-embedding-3-large; update if using a different model.
+    if (!app.Environment.IsEnvironment("Testing"))
+    {
+        using var scope = app.Services.CreateScope();
+        var indexManager = scope.ServiceProvider.GetRequiredService<SearchIndexManager>();
+        try
+        {
+            await indexManager.EnsureIndexExistsAsync(vectorDimension: 3072);
+        }
+        catch (Exception ex)
+        {
+            Log.Warning(ex, "Failed to ensure search index exists — app will start anyway");
+        }
+    }
 
     if (app.Environment.IsDevelopment())
     {

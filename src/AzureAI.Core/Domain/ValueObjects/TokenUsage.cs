@@ -3,14 +3,15 @@ namespace AzureAI.Core.Domain.ValueObjects;
 /// <summary>Token consumption and estimated cost for a single model invocation.</summary>
 /// <param name="PromptTokens">Number of tokens in the prompt.</param>
 /// <param name="CompletionTokens">Number of tokens in the completion.</param>
-/// <param name="TotalTokens">Sum of prompt and completion tokens.</param>
 /// <param name="EstimatedCost">Approximate cost in USD for this invocation.</param>
 public sealed record TokenUsage(
     int PromptTokens,
     int CompletionTokens,
-    int TotalTokens,
     decimal EstimatedCost)
 {
+    /// <summary>Sum of prompt and completion tokens.</summary>
+    public int TotalTokens => PromptTokens + CompletionTokens;
+
     /// <summary>
     /// Creates a <see cref="TokenUsage"/> instance with the estimated cost calculated using
     /// the supplied per-token rates.
@@ -26,6 +27,6 @@ public sealed record TokenUsage(
         decimal completionCostPerToken)
     {
         var cost = promptTokens * promptCostPerToken + completionTokens * completionCostPerToken;
-        return new TokenUsage(promptTokens, completionTokens, promptTokens + completionTokens, cost);
+        return new TokenUsage(promptTokens, completionTokens, cost);
     }
 }

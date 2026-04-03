@@ -11,7 +11,7 @@ public static class FunctionCallingServiceRegistration
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddSingleton<ToolRegistry>(sp =>
+        services.AddScoped<ToolRegistry>(sp =>
         {
             var registry = new ToolRegistry();
             var sender   = sp.GetRequiredService<ISender>();

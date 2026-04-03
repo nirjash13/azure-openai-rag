@@ -40,10 +40,10 @@ internal static class DocumentEndpoints
         ISender mediator,
         CancellationToken ct)
     {
-        var command = new IngestDocumentCommand(file.OpenReadStream(), file.FileName, file.ContentType, file.Length);
-        var id = await mediator.Send(command, ct);
-        var response = ApiResponse.Ok(new { id });
-        return Results.Created($"/api/v1/documents/{id}", response);
+        await using var stream  = file.OpenReadStream();
+        var command  = new IngestDocumentCommand(stream, file.FileName, file.ContentType, file.Length);
+        var id       = await mediator.Send(command, ct);
+        return Results.Created($"/api/v1/documents/{id}", ApiResponse.Ok(new { id }));
     }
 
     private static async Task<IResult> GetDocuments(ISender mediator, CancellationToken ct)

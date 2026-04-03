@@ -8,8 +8,11 @@ public interface IDocumentRepository
     /// <summary>Persists a new document.</summary>
     Task AddAsync(Document document, CancellationToken cancellationToken = default);
 
-    /// <summary>Returns the document with the given identifier, or <c>null</c> if not found.</summary>
+    /// <summary>Returns the document with the given identifier (no-tracking), or <c>null</c> if not found.</summary>
     Task<Document?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>Returns the document with the given identifier as a tracked entity for update, or <c>null</c> if not found.</summary>
+    Task<Document?> GetByIdTrackingAsync(Guid id, CancellationToken cancellationToken = default);
 
     /// <summary>Returns all documents in the store.</summary>
     Task<IReadOnlyList<Document>> GetAllAsync(CancellationToken cancellationToken = default);

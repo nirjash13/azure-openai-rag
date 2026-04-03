@@ -20,13 +20,18 @@ public sealed class AzureAISearchService : IVectorSearchService
     /// <summary>Initializes a new <see cref="AzureAISearchService"/>.</summary>
     public AzureAISearchService(
         IOptions<AzureSearchSettings> settings,
-        ILogger<AzureAISearchService> logger)
+        ILogger<AzureAISearchService> logger,
+        IHttpClientFactory httpClientFactory)
     {
-        _settings     = settings.Value;
+        _settings         = settings.Value;
+        var httpClient    = httpClientFactory.CreateClient("AzureSearch");
+        var searchOptions = new SearchClientOptions();
+        searchOptions.Transport = new Azure.Core.Pipeline.HttpClientTransport(httpClient);
         _searchClient = new SearchClient(
             new Uri(_settings.Endpoint),
             _settings.IndexName,
-            new AzureKeyCredential(_settings.ApiKey));
+            new AzureKeyCredential(_settings.ApiKey),
+            searchOptions);
         _logger = logger;
     }
 
@@ -47,7 +52,7 @@ public sealed class AzureAISearchService : IVectorSearchService
         {
             VectorSearch = new() { Queries = { vectorQuery } },
             Size         = topK,
-            Select       = { "id", "documentId", "documentName", "content", "pageNumber", "section" },
+            Select       = { "id", "documentId", "documentName", "content", "pageNumber", "section", "startIndex", "endIndex" },
         };
 
         var response = await _searchClient.SearchAsync<SearchDocument>("*", options, cancellationToken);
@@ -68,8 +73,8 @@ public sealed class AzureAISearchService : IVectorSearchService
                     ContentSnippet: ParseString(doc, "content"),
                     Score:          r.Score ?? 0,
                     Metadata:       new ChunkMetadata(
-                        StartIndex:  0,
-                        EndIndex:    0,
+                        StartIndex:  ParseInt(doc, "startIndex"),
+                        EndIndex:    ParseInt(doc, "endIndex"),
                         PageNumber:  ParseNullableInt(doc, "pageNumber"),
                         Section:     ParseNullableString(doc, "section"))));
             }
@@ -91,11 +96,13 @@ public sealed class AzureAISearchService : IVectorSearchService
         {
             ["id"]            = c.Id.ToString(),
             ["documentId"]    = c.DocumentId.ToString(),
-            ["documentName"]  = string.Empty, // populated by caller context if needed
+            ["documentName"]  = c.DocumentName,
             ["content"]       = c.Content,
             ["contentVector"] = c.Embedding.ToArray(),
             ["pageNumber"]    = c.Metadata.PageNumber,
             ["section"]       = c.Metadata.Section,
+            ["startIndex"]    = c.Metadata.StartIndex,
+            ["endIndex"]      = c.Metadata.EndIndex,
         }).ToList();
 
         var batch = IndexDocumentsBatch.Upload(documents);
@@ -107,15 +114,26 @@ public sealed class AzureAISearchService : IVectorSearchService
     /// <inheritdoc />
     public async Task RemoveDocumentChunksAsync(Guid documentId, CancellationToken cancellationToken = default)
     {
-        var filter  = $"documentId eq '{documentId}'";
-        var options = new SearchOptions { Filter = filter, Select = { "id" }, Size = 1000 };
+        const int pageSize = 1000;
+        var filter = $"documentId eq '{documentId}'";
+        var ids    = new List<string>();
+        int skip   = 0;
 
-        var response = await _searchClient.SearchAsync<SearchDocument>("*", options, cancellationToken);
-        var ids      = new List<string>();
+        while (true)
+        {
+            var options  = new SearchOptions { Filter = filter, Select = { "id" }, Size = pageSize, Skip = skip };
+            var response = await _searchClient.SearchAsync<SearchDocument>("*", options, cancellationToken);
+            var page     = new List<string>();
 
-        await foreach (var page in response.Value.GetResultsAsync().AsPages().WithCancellation(cancellationToken))
-            foreach (var r in page.Values)
-                ids.Add(ParseString(r.Document, "id"));
+            await foreach (var r in response.Value.GetResultsAsync().WithCancellation(cancellationToken))
+                page.Add(ParseString(r.Document, "id"));
+
+            ids.AddRange(page);
+            if (page.Count < pageSize)
+                break;
+
+            skip += pageSize;
+        }
 
         if (ids.Count == 0)
             return;
@@ -138,4 +156,7 @@ public sealed class AzureAISearchService : IVectorSearchService
 
     private static int? ParseNullableInt(SearchDocument doc, string key) =>
         doc.TryGetValue(key, out var v) && v is int i ? i : null;
+
+    private static int ParseInt(SearchDocument doc, string key) =>
+        doc.TryGetValue(key, out var v) && v is int i ? i : 0;
 }

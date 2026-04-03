@@ -18,7 +18,7 @@ public sealed class AnomalyDetectionHandlerTests
 
     private void SetupCompletion(string content)
     {
-        var usage = new TokenUsage(5, 10, 15, 0.005m);
+        var usage = new TokenUsage(5, 10, 0.005m);
         _completionService
             .Setup(c => c.GenerateAsync(It.IsAny<IReadOnlyList<(ChatRole, string)>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new CompletionResult(content, usage));

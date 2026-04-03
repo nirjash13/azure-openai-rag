@@ -28,12 +28,14 @@ public sealed class AskQuestionHandlerTests
             MaxConversationHistory = 10,
             IncludeCitations = false
         };
+        var searchSettings = new AzureSearchSettings { TopK = 5, MinScore = 0.0 };
         return new AskQuestionHandler(
             _embeddingService.Object,
             _vectorSearchService.Object,
             _completionService.Object,
             _conversationRepo.Object,
             Options.Create(ragSettings),
+            Options.Create(searchSettings),
             _logger.Object);
     }
 
@@ -47,7 +49,7 @@ public sealed class AskQuestionHandlerTests
         _vectorSearchService.Setup(v => v.SearchAsync(embedding, It.IsAny<int>(), It.IsAny<double>(), It.IsAny<CancellationToken>()))
                             .ReturnsAsync((IReadOnlyList<SearchResult>)[]);
 
-        var tokenUsage = new TokenUsage(10, 20, 30, 0.01m);
+        var tokenUsage = new TokenUsage(10, 20, 0.01m);
         _completionService.Setup(c => c.GenerateAsync(It.IsAny<IReadOnlyList<(ChatRole, string)>>(), It.IsAny<CancellationToken>()))
                           .ReturnsAsync(new CompletionResult("The answer", tokenUsage));
 
@@ -70,7 +72,7 @@ public sealed class AskQuestionHandlerTests
         _vectorSearchService.Setup(v => v.SearchAsync(It.IsAny<EmbeddingVector>(), It.IsAny<int>(), It.IsAny<double>(), It.IsAny<CancellationToken>()))
                             .ReturnsAsync((IReadOnlyList<SearchResult>)[]);
 
-        var tokenUsage = new TokenUsage(5, 10, 15, 0.005m);
+        var tokenUsage = new TokenUsage(5, 10, 0.005m);
         _completionService.Setup(c => c.GenerateAsync(It.IsAny<IReadOnlyList<(ChatRole, string)>>(), It.IsAny<CancellationToken>()))
                           .ReturnsAsync(new CompletionResult("answer", tokenUsage));
 
@@ -90,7 +92,7 @@ public sealed class AskQuestionHandlerTests
         _vectorSearchService.Setup(v => v.SearchAsync(embedding, It.IsAny<int>(), It.IsAny<double>(), It.IsAny<CancellationToken>()))
                             .ReturnsAsync((IReadOnlyList<SearchResult>)[]);
 
-        var tokenUsage = new TokenUsage(0, 0, 0, 0m);
+        var tokenUsage = new TokenUsage(0, 0, 0m);
         _completionService.Setup(c => c.GenerateAsync(It.IsAny<IReadOnlyList<(ChatRole, string)>>(), It.IsAny<CancellationToken>()))
                           .ReturnsAsync(new CompletionResult("answer", tokenUsage));
 
@@ -110,20 +112,22 @@ public sealed class AskQuestionHandlerTests
         _vectorSearchService.Setup(v => v.SearchAsync(It.IsAny<EmbeddingVector>(), It.IsAny<int>(), It.IsAny<double>(), It.IsAny<CancellationToken>()))
                             .ReturnsAsync((IReadOnlyList<SearchResult>)[]);
 
-        var tokenUsage = new TokenUsage(10, 10, 20, 0.01m);
+        var tokenUsage = new TokenUsage(10, 10, 0.01m);
         _completionService.Setup(c => c.GenerateAsync(It.IsAny<IReadOnlyList<(ChatRole, string)>>(), It.IsAny<CancellationToken>()))
                           .ReturnsAsync(new CompletionResult("answer", tokenUsage));
 
         _conversationRepo.Setup(r => r.GetRecentMessagesAsync(conversationId, It.IsAny<int>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync((IReadOnlyList<ChatMessage>)[]);
-        _conversationRepo.Setup(r => r.AppendMessagesAsync(conversationId, It.IsAny<ChatMessage[]>()))
+        _conversationRepo.Setup(r => r.GetByIdAsync(conversationId, It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(new ConversationSession());
+        _conversationRepo.Setup(r => r.AppendMessagesAsync(conversationId, It.IsAny<IReadOnlyList<ChatMessage>>(), It.IsAny<CancellationToken>()))
                          .Returns(Task.CompletedTask);
 
         var handler = CreateHandler();
         await handler.Handle(new AskQuestionQuery("q", conversationId, null, null), CancellationToken.None);
 
         _conversationRepo.Verify(r => r.GetRecentMessagesAsync(conversationId, It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Once);
-        _conversationRepo.Verify(r => r.AppendMessagesAsync(conversationId, It.IsAny<ChatMessage[]>()), Times.Once);
+        _conversationRepo.Verify(r => r.AppendMessagesAsync(conversationId, It.IsAny<IReadOnlyList<ChatMessage>>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -135,13 +139,13 @@ public sealed class AskQuestionHandlerTests
         _vectorSearchService.Setup(v => v.SearchAsync(It.IsAny<EmbeddingVector>(), It.IsAny<int>(), It.IsAny<double>(), It.IsAny<CancellationToken>()))
                             .ReturnsAsync((IReadOnlyList<SearchResult>)[]);
 
-        var tokenUsage = new TokenUsage(0, 0, 0, 0m);
+        var tokenUsage = new TokenUsage(0, 0, 0m);
         _completionService.Setup(c => c.GenerateAsync(It.IsAny<IReadOnlyList<(ChatRole, string)>>(), It.IsAny<CancellationToken>()))
                           .ReturnsAsync(new CompletionResult("answer", tokenUsage));
 
         var handler = CreateHandler();
         await handler.Handle(new AskQuestionQuery("q", null, null, null), CancellationToken.None);
 
-        _conversationRepo.Verify(r => r.AppendMessagesAsync(It.IsAny<Guid>(), It.IsAny<ChatMessage[]>()), Times.Never);
+        _conversationRepo.Verify(r => r.AppendMessagesAsync(It.IsAny<Guid>(), It.IsAny<IReadOnlyList<ChatMessage>>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

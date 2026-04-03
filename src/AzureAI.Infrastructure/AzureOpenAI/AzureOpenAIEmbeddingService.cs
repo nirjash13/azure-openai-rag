@@ -18,11 +18,15 @@ public sealed class AzureOpenAIEmbeddingService : IEmbeddingService
     /// <summary>Initializes a new <see cref="AzureOpenAIEmbeddingService"/>.</summary>
     public AzureOpenAIEmbeddingService(
         IOptions<AzureOpenAISettings> settings,
-        ILogger<AzureOpenAIEmbeddingService> logger)
+        ILogger<AzureOpenAIEmbeddingService> logger,
+        IHttpClientFactory httpClientFactory)
     {
-        var s = settings.Value;
-        var azureClient = new AzureOpenAIClient(new Uri(s.Endpoint), new AzureKeyCredential(s.ApiKey));
-        _client = azureClient.GetEmbeddingClient(s.EmbeddingDeployment);
+        var s             = settings.Value;
+        var httpClient    = httpClientFactory.CreateClient("AzureOpenAI");
+        var clientOptions = new AzureOpenAIClientOptions();
+        clientOptions.Transport = new System.ClientModel.Primitives.HttpClientPipelineTransport(httpClient);
+        var azureClient   = new AzureOpenAIClient(new Uri(s.Endpoint), new AzureKeyCredential(s.ApiKey), clientOptions);
+        _client  = azureClient.GetEmbeddingClient(s.EmbeddingDeployment);
         _logger  = logger;
     }
 

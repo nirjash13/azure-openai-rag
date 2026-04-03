@@ -2,16 +2,19 @@ using AzureAI.Api.Models;
 using AzureAI.Core.Domain.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.Extensions.Hosting;
 
 namespace AzureAI.Api.Middleware;
 
 internal sealed class GlobalExceptionHandler : IExceptionHandler
 {
     private readonly ILogger<GlobalExceptionHandler> _logger;
+    private readonly IHostEnvironment _env;
 
-    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
+    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger, IHostEnvironment env)
     {
         _logger = logger;
+        _env    = env;
     }
 
     public async ValueTask<bool> TryHandleAsync(
@@ -27,11 +30,11 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
 
             DocumentProcessingException dpex => (
                 StatusCodes.Status422UnprocessableEntity,
-                ApiResponse.Fail(dpex.Message)),
+                ApiResponse.Fail(_env.IsDevelopment() ? dpex.Message : "Document processing failed.")),
 
             EmbeddingGenerationException or CompletionException => (
                 StatusCodes.Status502BadGateway,
-                ApiResponse.Fail(exception.Message)),
+                ApiResponse.Fail("An upstream AI service error occurred.")),
 
             KeyNotFoundException => (
                 StatusCodes.Status404NotFound,

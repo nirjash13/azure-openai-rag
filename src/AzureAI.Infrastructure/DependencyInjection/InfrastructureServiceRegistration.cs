@@ -5,6 +5,7 @@ using AzureAI.Infrastructure.AzureOpenAI;
 using AzureAI.Infrastructure.DocumentProcessing;
 using AzureAI.Infrastructure.Persistence;
 using AzureAI.Infrastructure.Persistence.Repositories;
+using AzureAI.Infrastructure.Resilience;
 using AzureAI.Infrastructure.Search;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,12 +30,21 @@ public static class InfrastructureServiceRegistration
         services.Configure<ChunkingSettings>(configuration.GetSection("Chunking"));
         services.Configure<RagSettings>(configuration.GetSection("Rag"));
 
+        // Named HTTP clients with Polly resilience policies
+        services.AddHttpClient("AzureOpenAI")
+            .AddPolicyHandler(RetryPolicies.AzureServiceRetry())
+            .AddPolicyHandler(CircuitBreakerPolicies.AzureServiceCircuitBreaker());
+
+        services.AddHttpClient("AzureSearch")
+            .AddPolicyHandler(RetryPolicies.AzureServiceRetry())
+            .AddPolicyHandler(CircuitBreakerPolicies.AzureServiceCircuitBreaker());
+
         // Azure OpenAI
-        services.AddScoped<IEmbeddingService, AzureOpenAIEmbeddingService>();
-        services.AddScoped<ICompletionService, AzureOpenAICompletionService>();
+        services.AddSingleton<IEmbeddingService, AzureOpenAIEmbeddingService>();
+        services.AddSingleton<ICompletionService, AzureOpenAICompletionService>();
 
         // Azure AI Search
-        services.AddScoped<IVectorSearchService, AzureAISearchService>();
+        services.AddSingleton<IVectorSearchService, AzureAISearchService>();
         services.AddScoped<SearchIndexManager>();
 
         // Document processing
@@ -42,7 +52,7 @@ public static class InfrastructureServiceRegistration
         services.AddScoped<IDocumentParser, MarkdownParser>();
         services.AddScoped<IDocumentParser, PdfDocumentParser>();
         services.AddScoped<IDocumentParser, DocxDocumentParser>();
-        services.AddScoped<DocumentParserFactory>();
+        services.AddScoped<IDocumentParser, HtmlDocumentParser>();
         services.AddScoped<ITextChunker, SlidingWindowChunker>();
 
         // Database

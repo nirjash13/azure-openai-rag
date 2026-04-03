@@ -31,4 +31,10 @@ public sealed record ChatMessage
         Content        = content;
         CreatedAt      = DateTime.UtcNow;
     }
+
+    // Required by EF Core for materialization.
+    private ChatMessage()
+    {
+        Content = null!;
+    }
 }

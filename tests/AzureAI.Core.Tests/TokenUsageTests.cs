@@ -30,8 +30,8 @@ public sealed class TokenUsageTests
     [Fact]
     public void Record_SameValues_AreEqual()
     {
-        var a = new TokenUsage(10, 20, 30, 0.05m);
-        var b = new TokenUsage(10, 20, 30, 0.05m);
+        var a = new TokenUsage(10, 20, 0.05m);
+        var b = new TokenUsage(10, 20, 0.05m);
         a.Should().Be(b);
     }
 }

@@ -30,7 +30,7 @@ internal static class AgentEndpoints
         if (string.IsNullOrWhiteSpace(request.Message))
             return Results.BadRequest(ApiResponse.Fail("Message is required."));
 
-        var agentRequest = new AgentRequest(request.Message, request.UserId);
+        var agentRequest = new AgentRequest(request.Message, request.UserId, request.AllowedTools);
         var response     = await orchestrator.RunAsync(agentRequest, ct);
 
         return Results.Ok(ApiResponse.Ok(response));
@@ -46,5 +46,8 @@ internal static class AgentEndpoints
     }
 }
 
-internal sealed record AgentChatRequest(string Message, string? UserId = null);
+internal sealed record AgentChatRequest(
+    string Message,
+    string? UserId = null,
+    IReadOnlySet<string>? AllowedTools = null);
 internal sealed record ToolInfo(string Name, string Description);

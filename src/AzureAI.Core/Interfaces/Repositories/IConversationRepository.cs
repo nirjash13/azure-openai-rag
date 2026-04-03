@@ -20,8 +20,8 @@ public interface IConversationRepository
         int maxMessages,
         CancellationToken cancellationToken = default);
 
-    /// <summary>Appends one or more messages to an existing conversation.</summary>
-    Task AppendMessagesAsync(Guid conversationId, params ChatMessage[] messages);
+    /// <summary>Appends one or more messages to an existing conversation and updates <c>LastMessageAt</c>.</summary>
+    Task AppendMessagesAsync(Guid conversationId, IReadOnlyList<ChatMessage> messages, CancellationToken cancellationToken = default);
 
     /// <summary>Removes the conversation and all its messages.</summary>
     Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);

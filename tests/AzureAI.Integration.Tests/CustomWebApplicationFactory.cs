@@ -112,7 +112,7 @@ public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
             .Setup(r => r.CreateAsync(It.IsAny<ConversationSession>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         ConversationRepository
-            .Setup(r => r.AppendMessagesAsync(It.IsAny<Guid>(), It.IsAny<ChatMessage[]>()))
+            .Setup(r => r.AppendMessagesAsync(It.IsAny<Guid>(), It.IsAny<IReadOnlyList<ChatMessage>>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
         ConversationRepository
             .Setup(r => r.DeleteAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
@@ -133,7 +133,7 @@ public sealed class CustomWebApplicationFactory : WebApplicationFactory<Program>
 
     private void SetupCompletionServiceMock()
     {
-        var tokenUsage = new TokenUsage(10, 20, 30, 0.01m);
+        var tokenUsage = new TokenUsage(10, 20, 0.01m);
         CompletionService
             .Setup(c => c.GenerateAsync(It.IsAny<IReadOnlyList<(ChatRole, string)>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new CompletionResult("Test answer from mock.", tokenUsage));

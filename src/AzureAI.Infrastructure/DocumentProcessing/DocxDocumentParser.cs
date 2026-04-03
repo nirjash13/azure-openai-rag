@@ -45,8 +45,9 @@ public sealed class DocxDocumentParser : IDocumentParser
         using var reader      = new StreamReader(entryStream);
         var xml               = await reader.ReadToEndAsync(cancellationToken);
 
-        // Strip XML tags; collapse whitespace.
-        var text = TagPattern.Replace(xml, " ");
+        // Insert a newline at paragraph boundaries before stripping all tags.
+        var withBreaks = Regex.Replace(xml, @"</w:p>", "\n");
+        var text       = TagPattern.Replace(withBreaks, " ");
         return Regex.Replace(text, @"\s{2,}", " ").Trim();
     }
 }

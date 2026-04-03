@@ -1,3 +1,4 @@
+using System.Reflection;
 using AzureAI.FunctionCalling.Abstractions;
 
 namespace AzureAI.FunctionCalling;
@@ -16,5 +17,24 @@ public sealed class ToolRegistry
     {
         if (allowedTools is null) return GetAllTools();
         return [.. _tools.Values.Where(t => allowedTools.Contains(t.Name))];
+    }
+
+    /// <summary>
+    /// Scans <paramref name="assembly"/> for <see cref="IToolDefinition"/> implementations
+    /// decorated with <see cref="ToolFunctionAttribute"/> and registers them via the supplied factory.
+    /// </summary>
+    public void RegisterFromAssembly(Assembly assembly, Func<Type, IToolDefinition?> factory)
+    {
+        var types = assembly.GetExportedTypes()
+            .Where(t => t.IsClass && !t.IsAbstract
+                && t.GetCustomAttribute<ToolFunctionAttribute>() is not null
+                && typeof(IToolDefinition).IsAssignableFrom(t));
+
+        foreach (var type in types)
+        {
+            var tool = factory(type);
+            if (tool is not null)
+                Register(tool);
+        }
     }
 }

@@ -33,5 +33,8 @@ public sealed class IngestDocumentValidator : AbstractValidator<IngestDocumentCo
             .WithMessage(x =>
                 $"Content type '{x.ContentType}' is not supported. " +
                 $"Supported types: {string.Join(", ", SupportedContentTypes)}.");
+
+        RuleFor(x => x.FileStream)
+            .NotNull().WithMessage("File stream is required and must be readable.");
     }
 }

@@ -82,7 +82,7 @@ public sealed class IngestDocumentHandler : IRequestHandler<IngestDocumentComman
                 {
                     var chunk    = batch[i];
                     var metadata = new ChunkMetadata(chunk.StartIndex, chunk.EndIndex, chunk.PageNumber, chunk.Section);
-                    documentChunks.Add(new DocumentChunk(document.Id, chunk.Content, embeddings[i], metadata, chunk.ChunkIndex));
+                    documentChunks.Add(new DocumentChunk(document.Id, document.FileName, chunk.Content, embeddings[i], metadata, chunk.ChunkIndex));
                 }
             }
 

@@ -1,12 +1,12 @@
 using Azure;
 using Azure.AI.OpenAI;
 using AzureAI.Core.Configuration;
-using AzureAI.Core.Domain.Enums;
 using AzureAI.Core.Domain.ValueObjects;
 using AzureAI.Core.Interfaces.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OpenAI.Chat;
+using CoreChatRole = AzureAI.Core.Domain.Enums.ChatRole;
 
 namespace AzureAI.Infrastructure.AzureOpenAI;
 
@@ -20,17 +20,21 @@ public sealed class AzureOpenAICompletionService : ICompletionService
     /// <summary>Initializes a new <see cref="AzureOpenAICompletionService"/>.</summary>
     public AzureOpenAICompletionService(
         IOptions<AzureOpenAISettings> settings,
-        ILogger<AzureOpenAICompletionService> logger)
+        ILogger<AzureOpenAICompletionService> logger,
+        IHttpClientFactory httpClientFactory)
     {
-        _settings = settings.Value;
-        var azureClient = new AzureOpenAIClient(new Uri(_settings.Endpoint), new AzureKeyCredential(_settings.ApiKey));
+        _settings         = settings.Value;
+        var httpClient    = httpClientFactory.CreateClient("AzureOpenAI");
+        var clientOptions = new AzureOpenAIClientOptions();
+        clientOptions.Transport = new System.ClientModel.Primitives.HttpClientPipelineTransport(httpClient);
+        var azureClient   = new AzureOpenAIClient(new Uri(_settings.Endpoint), new AzureKeyCredential(_settings.ApiKey), clientOptions);
         _client  = azureClient.GetChatClient(_settings.ChatDeployment);
         _logger  = logger;
     }
 
     /// <inheritdoc />
     public async Task<CompletionResult> GenerateAsync(
-        IReadOnlyList<(ChatRole Role, string Content)> messages,
+        IReadOnlyList<(CoreChatRole Role, string Content)> messages,
         CancellationToken cancellationToken = default)
     {
         var chatMessages = messages.Select(ToSdkMessage).ToList();
@@ -59,11 +63,11 @@ public sealed class AzureOpenAICompletionService : ICompletionService
         return new CompletionResult(content, usage);
     }
 
-    private static ChatMessage ToSdkMessage((ChatRole Role, string Content) msg) =>
+    private static ChatMessage ToSdkMessage((CoreChatRole Role, string Content) msg) =>
         msg.Role switch
         {
-            ChatRole.System    => new SystemChatMessage(msg.Content),
-            ChatRole.Assistant => new AssistantChatMessage(msg.Content),
-            _                  => new UserChatMessage(msg.Content),
+            CoreChatRole.System    => new SystemChatMessage(msg.Content),
+            CoreChatRole.Assistant => new AssistantChatMessage(msg.Content),
+            _                      => new UserChatMessage(msg.Content),
         };
 }

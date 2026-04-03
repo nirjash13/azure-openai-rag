@@ -22,6 +22,11 @@ public sealed class ConversationSession
     /// <summary>UTC timestamp of the most recent message, or the session creation time if no messages exist.</summary>
     public DateTime LastMessageAt { get; private set; }
 
+    // Required by EF Core for materialization.
+    private ConversationSession()
+    {
+    }
+
     /// <summary>Initializes a new <see cref="ConversationSession"/>.</summary>
     /// <param name="title">Optional title; can be set or updated later.</param>
     public ConversationSession(string? title = null)

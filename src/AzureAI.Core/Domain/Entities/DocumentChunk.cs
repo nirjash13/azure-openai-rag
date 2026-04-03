@@ -11,6 +11,9 @@ public sealed class DocumentChunk
     /// <summary>Identifier of the parent document.</summary>
     public Guid DocumentId { get; private set; }
 
+    /// <summary>File name of the source document; used for search index citations.</summary>
+    public string DocumentName { get; private set; }
+
     /// <summary>Raw text content of this chunk.</summary>
     public string Content { get; private set; }
 
@@ -29,14 +32,16 @@ public sealed class DocumentChunk
     // Required by EF Core for materialization.
     private DocumentChunk()
     {
-        Content   = null!;
-        Embedding = null!;
-        Metadata  = null!;
+        Content      = null!;
+        DocumentName = null!;
+        Embedding    = null!;
+        Metadata     = null!;
     }
 
     /// <summary>Initializes a new <see cref="DocumentChunk"/>.</summary>
     public DocumentChunk(
         Guid documentId,
+        string documentName,
         string content,
         EmbeddingVector embedding,
         ChunkMetadata metadata,
@@ -45,15 +50,17 @@ public sealed class DocumentChunk
         ArgumentNullException.ThrowIfNull(embedding);
         ArgumentNullException.ThrowIfNull(metadata);
         ArgumentException.ThrowIfNullOrWhiteSpace(content);
+        ArgumentException.ThrowIfNullOrWhiteSpace(documentName);
         if (chunkIndex < 0)
             throw new ArgumentOutOfRangeException(nameof(chunkIndex), "Chunk index must be non-negative.");
 
-        Id         = Guid.NewGuid();
-        DocumentId = documentId;
-        Content    = content;
-        Embedding  = embedding;
-        Metadata   = metadata;
-        ChunkIndex = chunkIndex;
-        CreatedAt  = DateTime.UtcNow;
+        Id           = Guid.NewGuid();
+        DocumentId   = documentId;
+        DocumentName = documentName;
+        Content      = content;
+        Embedding    = embedding;
+        Metadata     = metadata;
+        ChunkIndex   = chunkIndex;
+        CreatedAt    = DateTime.UtcNow;
     }
 }

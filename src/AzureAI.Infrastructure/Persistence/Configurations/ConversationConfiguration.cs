@@ -24,6 +24,8 @@ internal sealed class ConversationConfiguration : IEntityTypeConfiguration<Conve
             .WithOne()
             .HasForeignKey(m => m.ConversationId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Navigation(c => c.Messages).HasField("_messages");
     }
 }
 

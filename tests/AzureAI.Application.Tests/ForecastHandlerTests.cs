@@ -18,7 +18,7 @@ public sealed class ForecastHandlerTests
 
     private void SetupCompletion(string content)
     {
-        var usage = new TokenUsage(10, 20, 30, 0.01m);
+        var usage = new TokenUsage(10, 20, 0.01m);
         _completionService
             .Setup(c => c.GenerateAsync(It.IsAny<IReadOnlyList<(ChatRole, string)>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new CompletionResult(content, usage));

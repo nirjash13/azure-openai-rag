@@ -17,12 +17,19 @@ public sealed class SearchIndexManager
     /// <summary>Initializes a new <see cref="SearchIndexManager"/>.</summary>
     public SearchIndexManager(
         IOptions<AzureSearchSettings> settings,
-        ILogger<SearchIndexManager> logger)
+        ILogger<SearchIndexManager> logger,
+        IHttpClientFactory httpClientFactory)
     {
-        _settings    = settings.Value;
+        _settings         = settings.Value;
+        var httpClient    = httpClientFactory.CreateClient("AzureSearch");
+        var searchOptions = new Azure.Search.Documents.SearchClientOptions
+        {
+            Transport = new Azure.Core.Pipeline.HttpClientTransport(httpClient),
+        };
         _indexClient = new SearchIndexClient(
             new Uri(_settings.Endpoint),
-            new AzureKeyCredential(_settings.ApiKey));
+            new AzureKeyCredential(_settings.ApiKey),
+            searchOptions);
         _logger = logger;
     }
 
@@ -53,6 +60,8 @@ public sealed class SearchIndexManager
                 },
                 new SimpleField("pageNumber",   SearchFieldDataType.Int32)  { IsFilterable = true },
                 new SimpleField("section",      SearchFieldDataType.String) { IsFilterable = true },
+                new SimpleField("startIndex",   SearchFieldDataType.Int32)  { IsFilterable = false },
+                new SimpleField("endIndex",     SearchFieldDataType.Int32)  { IsFilterable = false },
             },
             VectorSearch = new VectorSearch
             {
